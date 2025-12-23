@@ -1,0 +1,603 @@
+/* public/css/style.css */
+
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+  /* --- Brand Colors --- */
+  --primary-color: #d84315;
+  /* Orange (Logo/Aksen Utama) */
+  --secondary-color: #2962ff;
+  /* Biru (Tombol/Interaksi) */
+  --accent-color: #ffca28;
+  /* Kuning (Opsional) */
+
+  /* --- Background Palette --- */
+  --bg-body: #f4f6f9;
+  /* Broken White (Background Utama - Cool Grey) */
+  --bg-surface: #ffffff;
+  /* Pure White (Kartu, Navbar, Search Bar) */
+  --bg-hover: #f8f9fa;
+  /* Warna hover ringan */
+
+  /* --- Text Colors --- */
+  --text-dark: #212529;
+  --text-muted: #6c757d;
+  --text-light: #ffffff;
+}
+
+/* Tambahkan di style.css */
+.no-scroll {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-dark);
+  background-color: var(--bg-body);
+  /* Background broken white */
+  padding-top: 80px;
+  /* Kompensasi Fixed Navbar */
+  overflow-x: hidden;
+}
+
+/* =========================================
+   2. NAVBAR STYLING
+   ========================================= */
+.navbar {
+  /* Pure White dengan transparansi + Blur */
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(10px);
+
+  /* Border & Shadow halus untuk membedakan dengan body */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02),
+    0 2px 4px -1px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  color: var(--primary-color) !important;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  color: var(--text-dark) !important;
+  font-weight: 500;
+  margin: 0 5px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--primary-color) !important;
+}
+
+/* Tombol di Navbar (Login/Register) */
+.navbar .btn-outline-primary {
+  color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.navbar .btn-outline-primary:hover {
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+}
+
+.navbar .btn-primary {
+  background-color: var(--secondary-color);
+  /* Menggunakan Biru agar kontras */
+  border-color: var(--secondary-color);
+}
+
+.navbar .btn-primary:hover {
+  background-color: #0d47a1;
+  /* Biru lebih gelap */
+  border-color: #0d47a1;
+}
+
+/* =========================================
+   3. HERO & CAROUSEL SECTION
+   ========================================= */
+.hero {
+  padding: 0 0 80px;
+  /* Padding atas 0 karena pakai carousel */
+  background: transparent;
+}
+
+.banner-img {
+  height: 400px;
+  /* Tinggi Banner Desktop */
+  object-fit: cover;
+  width: 100%;
+}
+
+/* =========================================
+   4. FLOATING SEARCH BAR
+   ========================================= */
+.relative-container {
+  position: relative;
+}
+
+.search-panel {
+  /* Pure White agar kontras diatas broken white */
+  background-color: var(--bg-surface) !important;
+
+  margin-top: -60px;
+  /* Efek Floating (Numpuk Banner) */
+  position: relative;
+  z-index: 100;
+
+  /* Deep Shadow untuk efek melayang */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Form Styling */
+.search-panel .form-control,
+.search-panel .form-select {
+  padding: 12px 15px;
+  font-size: 0.95rem;
+  background-color: #ececec !important;
+  /* Input field agak gelap dikit */
+}
+
+.search-panel .form-control:focus,
+.search-panel .form-select:focus {
+  background-color: #fff;
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 0.25rem rgba(41, 98, 255, 0.25);
+}
+
+/* =========================================
+   5. CATEGORY SECTION
+   ========================================= */
+.icon-box {
+  width: 60px;
+  height: 60px;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.category-item:hover .icon-box {
+  transform: scale(1.15);
+  /* Zoom effect */
+}
+
+.category-item small {
+  margin-top: 8px;
+  display: block;
+}
+
+/* =========================================
+   6. EVENT CARDS (Grid System)
+   ========================================= */
+.event-card {
+  background-color: var(--bg-surface);
+  /* Kartu Putih */
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  /* Border sangat halus */
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  /* Naik ke atas saat hover */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+  /* Bayangan halus */
+}
+
+.event-card img {
+  height: 160px;
+  /* Tinggi gambar di grid */
+  object-fit: cover;
+  width: 100%;
+}
+
+.event-card .card-body {
+  padding: 1.25rem;
+}
+
+.event-card .card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Harga styling */
+.event-card p.text-primary {
+  color: var(--primary-color) !important;
+  /* Harga pakai warna Orange */
+}
+
+/* Garis putus-putus pemisah */
+.dashed {
+  border-top: 1px dashed #e0e0e0;
+}
+
+/* =========================================
+   7. FOOTER
+   ========================================= */
+footer {
+  background-color: var(--bg-surface);
+  color: var(--text-dark);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 2rem 0;
+  margin-top: 5rem;
+}
+
+/* =========================================
+   8. RESPONSIVE UTILITIES
+   ========================================= */
+@media (max-width: 768px) {
+  .banner-img {
+    height: 250px;
+    /* Banner lebih pendek di HP */
+  }
+
+  .search-panel {
+    margin-top: -30px;
+    padding: 1.5rem !important;
+  }
+
+  .hero {
+    padding-bottom: 40px;
+  }
+}
+
+/* Definisi Variabel untuk Dark Mode */
+body.dark-mode {
+  /* Background menjadi Gelap (Dark Grey) */
+  --bg-body: #121212;
+
+  /* Permukaan (Card/Navbar) menjadi sedikit lebih terang dari background */
+  --bg-surface: #1e1e1e;
+
+  /* Text menjadi Putih/Terang */
+  --text-dark: #e0e0e0;
+  --text-muted: #b0b0b0;
+
+  /* Input field menjadi gelap */
+  --bg-input: #2d2d2d;
+}
+
+/* --- Override Bootstrap & Utilities di Dark Mode --- */
+body.dark-mode .bg-white {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-dark) !important;
+}
+
+body.dark-mode .bg-light {
+  background-color: #2d2d2d !important;
+  /* Warna input/select jadi gelap */
+  color: var(--text-dark) !important;
+}
+
+body.dark-mode .text-dark {
+  color: var(--text-dark) !important;
+}
+
+body.dark-mode .text-muted {
+  /* Mengubah warna text-muted menjadi abu-abu terang agar kontras */
+  color: #b0b0b0 !important;
+}
+
+/* Pastikan elemen p di dalam card ikut berubah jika tidak pakai class text-muted */
+body.dark-mode .card p {
+  color: var(--text-dark);
+}
+
+body.dark-mode .navbar {
+  background-color: rgba(30, 30, 30, 0.95) !important;
+  /* Navbar gelap transparan */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .event-card,
+body.dark-mode .search-panel {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5) !important;
+  /* Shadow lebih pekat di dark mode */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Border tipis agar terlihat batasnya */
+  background-color: var(--bg-surface) !important;
+  /* Memastikan teks judul h1-h6 di dalam kartu berwarna terang */
+  color: var(--text-dark) !important;
+}
+
+/* Khusus Input Form di Search Panel */
+body.dark-mode .search-panel .form-control,
+body.dark-mode .search-panel .form-select {
+  background-color: var(--bg-input) !important;
+  color: var(--text-dark);
+  border: 1px solid #444;
+}
+
+/* Agar Placeholder text terlihat */
+body.dark-mode ::placeholder {
+  color: #888 !important;
+}
+
+/* Dark Mode Table Support */
+body.dark-mode .table {
+  color: var(--text-dark);
+}
+
+body.dark-mode .table thead.bg-light {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+body.dark-mode .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.bg-surface {
+  background-color: var(--bg-surface);
+}
+
+.dark-mode {
+  --bg-input: #2d2d2d;
+  --text-filter: #adb5bd;
+  /* Teks filter lebih terang di dark mode */
+}
+
+/* Penyesuaian Form agar Dinamis */
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text {
+  background-color: var(--bg-input) !important;
+  color: var(--text-dark) !important;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Perbaikan Teks Filter */
+body.dark-mode .filter-label {
+  color: var(--text-filter) !important;
+}
+
+/* Perbaikan spesifik untuk teks Filter di Dark Mode */
+.dark-mode .card.bg-surface h5 {
+  color: #ffffff !important;
+  /* Heading "Filter" jadi Putih */
+}
+
+.dark-mode .filter-label,
+.dark-mode .form-check-label {
+  color: #e9ecef !important;
+  /* Label Lokasi, Harga, dll jadi abu-abu terang */
+}
+
+/* Pastikan input select tidak memiliki border hitam yang tajam */
+.dark-mode .form-select.bg-input-custom {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Warna icon panah pada select box di dark mode */
+.dark-mode .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+
+/* --- Auth Layout Colors --- */
+
+/* Mode Terang (Default) */
+.text-auth-header {
+  color: #2d3436;
+}
+
+.text-auth-label {
+  color: #4b4b4b;
+}
+
+.bg-input-custom {
+  background-color: #f8f9fa !important;
+  color: #212529;
+}
+
+/* Mode Gelap */
+.dark-mode .text-auth-header {
+  color: #ffffff !important;
+}
+
+.dark-mode .text-auth-label {
+  color: #e9ecef !important;
+}
+
+.dark-mode .bg-input-custom {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-mode .input-group-text {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #adb5bd !important;
+}
+
+/* Memastikan placeholder juga terlihat pas di dark mode */
+.dark-mode .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Perbaikan Burger Icon di Dark Mode */
+body.dark-mode .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+  /* Opsional: warna border toggler */
+}
+
+body.dark-mode .navbar-toggler-icon {
+  /* Mengubah filter ikon SVG menjadi putih */
+  filter: invert(1) brightness(100%) contrast(100%);
+}
+
+/* Jika Anda ingin area background navbar saat menu terbuka juga menyesuaikan */
+@media (max-width: 991.98px) {
+  body.dark-mode .navbar-collapse {
+    background-color: var(--bg-surface);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Modal Dark Mode Adjustment */
+.dark-mode .modal-content {
+  background-color: var(--bg-surface);
+}
+
+.dark-mode .modal-header,
+.dark-mode .modal-footer {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .modal-body h3 {
+  color: #ffffff;
+}
+
+/* Perbaikan Tipografi Detail Event di Dark Mode */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h5 {
+  color: #ffffff !important;
+}
+
+/* Teks Utama Informasi (Tanggal, Lokasi, dll) */
+.dark-mode .event-detail-text {
+  color: #f8f9fa !important;
+  /* Putih tulang agar nyaman di mata */
+}
+
+/* Label Kecil (Tanggal & Waktu, Lokasi) */
+.dark-mode .event-detail-label {
+  color: #adb5bd !important;
+  /* Abu-abu terang */
+}
+
+/* Deskripsi Acara */
+.dark-mode .event-description {
+  color: #dee2e6 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Opsional: Efek saat hover agar lebih interaktif */
+.cursor-pointer:hover i {
+  color: var(--primary-color) !important;
+}
+
+/* --- Dashboard & Table Dark Mode --- */
+
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5 {
+  color: #ffffff !important;
+}
+
+/* Fix Table in Dark Mode */
+body.dark-mode .table {
+  color: #dee2e6;
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .table thead {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #ffffff;
+}
+
+body.dark-mode .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+}
+
+body.dark-mode .table td,
+body.dark-mode .table th {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Fix Dropdown Profile in Dark Mode */
+body.dark-mode .dropdown-menu {
+  background-color: #2d2d2d;
+  /* Sesuaikan dengan warna surface Anda */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dropdown-item {
+  color: #dee2e6;
+}
+
+body.dark-mode .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.dark-mode .dropdown-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Fix Dashboard Dark Mode Visibility --- */
+
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode .fw-bold {
+  color: #ffffff !important;
+  /* Memastikan judul dan angka di card terlihat */
+}
+
+/* Tabel Adaptif */
+body.dark-mode .table {
+  --bs-table-bg: transparent;
+  /* Membuat background tabel mengikuti card */
+  --bs-table-color: #dee2e6;
+  --bs-table-border-color: rgba(255, 255, 255, 0.1);
+  color: #dee2e6;
+}
+
+/* Header Tabel */
+body.dark-mode .table thead th {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Efek Hover Baris Tabel */
+body.dark-mode .table-hover tbody tr:hover {
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+}
+
+/* Fix Dropdown Profile */
+body.dark-mode .dropdown-menu {
+  background-color: #212529;
+  /* Warna gelap solid untuk dropdown */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .dropdown-item {
+  color: #dee2e6;
+}
+
+body.dark-mode .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+body.dark-mode select.bg-input-custom option {
+  background-color: #2d2d2d;
+  /* Warna surface Anda */
+  color: #ffffff;
+}
