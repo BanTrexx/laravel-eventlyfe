@@ -56,7 +56,8 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body p-0 text-center bg-dark">
-                                        <img src="{{ asset('storage/' . $ticket->payment_proof) }}" class="img-fluid">
+                                        {{-- PERUBAHAN DI SINI: Mengarah ke public/images/proofs --}}
+                                        <img src="{{ asset('images/proofs/' . $ticket->payment_proof) }}" class="img-fluid" alt="Bukti Pembayaran">
                                     </div>
                                     <div class="modal-footer border-0">
                                         <button type="button" class="btn btn-secondary w-100 rounded-pill" data-bs-dismiss="modal">Tutup</button>
