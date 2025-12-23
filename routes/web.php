@@ -60,7 +60,3 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/checkout', [UserController::class, 'checkout'])->name('checkout');
     });
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
