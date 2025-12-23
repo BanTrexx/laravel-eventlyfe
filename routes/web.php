@@ -18,7 +18,7 @@ Route::get('/event/{id}', [App\Http\Controllers\HomeController::class, 'show'])-
 Route::get('/register/organizer', [App\Http\Controllers\Auth\RegisterController::class, 'showOrganizerRegisterForm'])->name('register.organizer');
 
 // Auth Routes (Login, Register, Logout)
-Auth::routes(['verify' => true]); // Mengaktifkan email verification
+Auth::routes(['verify' => false]); // Mengaktifkan email verification
 
 // Route yang membutuhkan Login
 Route::middleware(['auth'])->group(function () {
