@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Category; // Import Model Category
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File; // Gunakan Facade File untuk penghapusan
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -19,37 +20,6 @@ class EventController extends Controller
     {
         $categories = \App\Models\Category::all();
         return view('events.create', compact('categories'));
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'location' => 'required|string|max:255', // Validasi lokasi
-            'date' => 'required|date',
-            'price' => 'required|numeric',
-            'quota' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'description' => 'required',
-        ]);
-
-        $imagePath = $request->file('image')->store('events', 'public');
-
-        \App\Models\Event::create([
-            'name' => $request->name,
-            'slug' => \Str::slug($request->name),
-            'category_id' => $request->category_id,
-            'location' => $request->location, // Simpan lokasi
-            'date' => $request->date,
-            'price' => $request->price,
-            'quota' => $request->quota,
-            'image' => $imagePath,
-            'description' => $request->description,
-            'organizer_id' => auth()->id(),
-        ]);
-
-        return redirect()->route('organizer.dashboard')->with('success', 'Event berhasil dibuat!');
     }
 
     public function allEvents(Request $request)
@@ -103,9 +73,47 @@ class EventController extends Controller
         return view('events.edit', compact('event', 'categories'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'location' => 'required|string|max:255',
+            'date' => 'required|date',
+            'price' => 'required|numeric',
+            'quota' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'description' => 'required',
+        ]);
+
+        // Logika Upload ke public/images/events
+        $imageName = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
+            // Pindahkan ke folder public/images/events
+            $image->move(public_path('images/events'), $imageName);
+        }
+
+        Event::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'category_id' => $request->category_id,
+            'location' => $request->location,
+            'date' => $request->date,
+            'price' => $request->price,
+            'quota' => $request->quota,
+            'image' => $imageName, // Hanya simpan nama filenya saja
+            'description' => $request->description,
+            'organizer_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('organizer.dashboard')->with('success', 'Event berhasil dibuat!');
+    }
+
     public function update(Request $request, $id)
     {
-        $event = \App\Models\Event::where('id', $id)
+        $event = Event::where('id', $id)
             ->where('organizer_id', auth()->id())
             ->firstOrFail();
 
@@ -116,23 +124,27 @@ class EventController extends Controller
             'date' => 'required',
             'price' => 'required|numeric',
             'quota' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Image opsional saat edit
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'description' => 'required',
         ]);
 
         $data = $request->all();
-        $data['slug'] = \Str::slug($request->name);
+        $data['slug'] = Str::slug($request->name);
 
-        // Logika Penggantian Gambar
+        // Logika Penggantian Gambar di folder public
         if ($request->hasFile('image')) {
-            // Hapus gambar lama dari storage jika ada
-            if ($event->image) {
-                Storage::disk('public')->delete($event->image);
+            // 1. Hapus gambar lama jika ada
+            $oldPath = public_path('images/events/' . $event->image);
+            if ($event->image && File::exists($oldPath)) {
+                File::delete($oldPath);
             }
-            // Simpan gambar baru
-            $data['image'] = $request->file('image')->store('events', 'public');
+
+            // 2. Simpan gambar baru
+            $image = $request->file('image');
+            $imageName = time() . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/events'), $imageName);
+            $data['image'] = $imageName;
         } else {
-            // Jika tidak upload baru, gunakan gambar yang lama
             $data['image'] = $event->image;
         }
 
@@ -143,17 +155,18 @@ class EventController extends Controller
 
     public function destroy($id)
     {
-        // Pastikan event milik organizer yang login
-        $event = \App\Models\Event::where('id', $id)
+        $event = Event::where('id', $id)
             ->where('organizer_id', auth()->id())
             ->firstOrFail();
 
-        // 1. Hapus file gambar dari storage
+        // Hapus file gambar dari folder public/images/events
         if ($event->image) {
-            Storage::disk('public')->delete($event->image);
+            $filePath = public_path('images/events/' . $event->image);
+            if (File::exists($filePath)) {
+                File::delete($filePath);
+            }
         }
 
-        // 2. Hapus data dari database
         $event->delete();
 
         return redirect()->route('organizer.dashboard')->with('success', 'Event berhasil dihapus secara permanen!');
