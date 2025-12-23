@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -44,16 +45,29 @@ class UserController extends Controller
             'payment_proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        // Cari tiket milik user yang sedang login
         $ticket = auth()->user()->tickets()->findOrFail($id);
 
         if ($request->hasFile('payment_proof')) {
-            // Simpan file ke folder storage/public/proofs
-            $path = $request->file('payment_proof')->store('proofs', 'public');
+            // 1. Logika Hapus Bukti Lama (jika user melakukan re-upload)
+            if ($ticket->payment_proof) {
+                $oldPath = public_path('images/proofs/' . $ticket->payment_proof);
+                if (File::exists($oldPath)) {
+                    File::delete($oldPath);
+                }
+            }
 
-            // Update data tiket
+            // 2. Proses File Baru
+            $image = $request->file('payment_proof');
+            // Penamaan unik: proof_IDTIKET_TIMESTAMP.ext
+            $filename = 'proof_' . $ticket->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+
+            // 3. Pindahkan langsung ke public/images/proofs
+            $image->move(public_path('images/proofs'), $filename);
+
+            // 4. Update nama file di database
             $ticket->update([
-                'payment_proof' => $path,
-                // Opsional: Kamu bisa ubah status ke 'process' jika ada, atau tetap 'pending'
+                'payment_proof' => $filename,
             ]);
         }
 
