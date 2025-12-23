@@ -75,7 +75,7 @@ class OrganizerController extends Controller
         $ticket = \App\Models\Ticket::findOrFail($id);
 
         // Pastikan ini memang tiket untuk event milik organizer yang login
-        if ($ticket->event->organizer_id !== auth()->id()) {
+        if ($ticket->event->organizer_id != auth()->id()) {
             abort(403);
         }
 
