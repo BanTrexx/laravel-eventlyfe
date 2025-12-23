@@ -21,7 +21,7 @@ Route::get('/register/organizer', [App\Http\Controllers\Auth\RegisterController:
 Auth::routes(['verify' => true]); // Mengaktifkan email verification
 
 // Route yang membutuhkan Login
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
     // 1. AREA ADMIN
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
