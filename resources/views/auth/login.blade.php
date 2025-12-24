@@ -38,11 +38,6 @@
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
                                 <label for="password" class="form-label fw-bold small text-auth-label">Kata Sandi</label>
-                                @if (Route::has('password.request'))
-                                <a class="small text-decoration-none" href="{{ route('password.request') }}">
-                                    Lupa Sandi?
-                                </a>
-                                @endif
                             </div>
                             <div class="input-group">
                                 <span class="input-group-text bg-input-custom border-0"><i class="bi bi-lock text-muted"></i></span>
