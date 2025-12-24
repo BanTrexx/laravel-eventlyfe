@@ -31,7 +31,7 @@
 
 <div class="container relative-container">
     <div class="search-panel shadow p-4 bg-white rounded-4">
-        <form action="#" method="GET">
+        <form action="{{ route('events.all') }}" method="GET">
             <div class="row g-2 align-items-end">
                 <div class="col-md-5">
                     <label class="form-label fw-bold text-muted small">Cari Event</label>
