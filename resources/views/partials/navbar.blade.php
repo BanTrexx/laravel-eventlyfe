@@ -50,8 +50,6 @@
               <a class="dropdown-item" href="{{ route('organizer.dashboard') }}">Dashboard Organizer</a>
               @elseif(Auth::user()->role->slug == 'checker')
               <a class="dropdown-item" href="{{ route('checker.dashboard') }}">Dashboard Checker</a>
-              @else
-              <a class="dropdown-item" href="{{ route('profile') }}">Profil Saya</a>
               @endif
             </li>
 
